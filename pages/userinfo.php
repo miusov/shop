@@ -18,7 +18,6 @@ if ($row['name']=='') {
 	?>
 	<div class="col-md-10 col-md-offset-1">
 		<div class="col-md-2">
-			<a href="" style="font-size: 12px">[изменить]</a>
 			<img src="<?php echo $row['imagepath']?>" alt="" width="127" height="127">
 			<p style="text-align: center; font-weight: bold"><?php echo $row['login']?></p>
 		</div>
@@ -33,7 +32,7 @@ if ($row['name']=='') {
 			<div class="col-md-7">
 				<input type="text" id="surname" name="surname"> <input type="text" id="name" name="name"><br><br>
 				<input type="date" id="birthday" name="birthday"><br><br>
-				<input type="tel" id="phone" name="phone"><br><br>
+				<input type="text" id="phone" name="phone"><br><br>
 				<input type="text" id="adress" name="adress"><br><br>
 
 				<p>* - обязательные для заполнения поля</p>
@@ -58,7 +57,8 @@ else{
 			<p>Телефон:</p>
 			<p>Почта</p>
 			<p>Дата регистрации:</p>
-			<p>Последняя активность:</p>
+			<p>В прошлый раз были:</p>
+			<p>В прошлый раз заходили с ip:</p>
 			<br>
 			<p>Адресс:</p>
 		</div>
@@ -68,10 +68,21 @@ else{
 			<p><?php echo $row['phone']?></p>
 			<p><?php echo $row['email']?></p>
 			<p><?php echo $row['regdate']?></p>
-			<p><?php echo $row['last-activity']?></p>
+			<p><?php echo $row['lastactivity']?></p>
+			<p><?php echo $row['lastip']?></p>
 			<br>
 			<p><?php echo $row['adress']?></p>
 		</div>
+		<form action="<?php $_SERVER['PHP_SELF']?>" method="post">
+			<input type="submit" name="delprofile" value="Удалить профиль" id="delProfile">
+		</form>
+		<?php 
+			if (isset($_POST['delprofile'])){
+				$ins = $pdo->prepare('DELETE FROM customers WHERE login="'.$user.'"');
+				$ins->execute();
+				echo "<script>document.location='index.php?page=4'</script>";
+			}
+		 ?>
 	</div>
 
 	<?php	
@@ -79,28 +90,41 @@ else{
 ?>
 <div class="col-md-8 col-md-offset-2 text-center email-form">
 	<h2>Написать письмо администрации</h2>
-	<form action="">
-		<textarea name="" placeholder="Сообщение..."></textarea><br>
-		<input type="submit" value="Отправить">
+	<form action="<?php $_SERVER['PHP_SELF']?>" method="post">
+		<textarea name="textemail" placeholder="Сообщение..."></textarea><br>
+		<input type="submit" value="Отправить" name="sendmail">
 	</form>
-<?php 
-if (isset($_POST['addinfo'])){
-	$surname = trim($_POST['surname']);
-	$name = trim($_POST['name']);
-	$birthday = trim($_POST['birthday']);
-	$phone = trim($_POST['phone']);
-	$adress = trim($_POST['adress']);
-	if ($surname != "" && $name != "" && $birthday != "" && $phone != "" && $adress != "") {
-		$ins = $pdo->prepare('UPDATE customers SET surname="'.$surname.'", name="'.$name.'", birthday="'.$birthday.'", phone="'.$phone.'", adress="'.$adress.'" WHERE login="'.$user.'"');
-		$ins->execute();
-		echo '<p class="add">Добавлено</p>';
-		echo "<script>document.location='index.php?page=userinfo&user=".$user."'</script>";
+	<?php if (isset($_POST['sendmail'])){
+			if ($_POST['textemail']!='') {
+				if (mail('miusov86@gmail.com', 'Сообщение с Интернет-магазина', $_POST['textemail'])) {
+					echo '<p style="color:green">Сообщение отправлено.</p>';
+				}
+				else{
+					echo '<p style="color:red">Ошибка при отправке!</p>';
+				}			
+			}
+			else{
+				echo '<p style="color:red">Напишите сообщение!</p>';
+			}
+		} ?>
+	<?php 
+	if (isset($_POST['addinfo'])){
+		$surname = trim($_POST['surname']);
+		$name = trim($_POST['name']);
+		$birthday = trim($_POST['birthday']);
+		$phone = trim($_POST['phone']);
+		$adress = trim($_POST['adress']);
+		if ($surname != "" && $name != "" && $birthday != "" && $phone != "" && $adress != "") {
+			$ins = $pdo->prepare('UPDATE customers SET surname="'.$surname.'", name="'.$name.'", birthday="'.$birthday.'", phone="'.$phone.'", adress="'.$adress.'" WHERE login="'.$user.'"');
+			$ins->execute();
+			echo '<p class="add">Добавлено</p>';
+			echo "<script>document.location='index.php?page=userinfo&user=".$user."'</script>";
+		}
+		else{
+			echo '<p class="add">Не все поля заполнены!</p>';
+		}
 	}
-	else{
-		echo '<p class="add">Не все поля заполнены!</p>';
-	}
-}
-?>	
+	?>	
 </div>
 
 

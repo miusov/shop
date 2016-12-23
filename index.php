@@ -50,13 +50,15 @@ foreach ($_COOKIE as $key => $value) {
                             <div class="layout-right col-md-4 col-xs-12 text-right">
                                 <?php
                                 if (isset($_SESSION['reguser'])){
-                                   echo 'Добро пожаловать <b>'. $_SESSION['reguser']. 
-                                   ' </b><a href="index.php?page=userinfo&user='.$_SESSION['reguser'].'" target="_blanc">[профиль]</a><input type="submit" value="Выход" id="exit" name="exit">';
-                               } 
-                               else{
+                                 echo 'Добро пожаловать <b>'. $_SESSION['reguser']. 
+                                 ' </b><a href="index.php?page=userinfo&user='.$_SESSION['reguser'].'" target="_blanc">[профиль]</a><input type="submit" value="Выход" id="exit" name="exit">';
+                             } 
+                             else{
                                 echo '<a href="index.php?page=4">Вход/Регистрация</a>';
                             }
                             if (isset($_POST['exit'])) {
+                                $ins = $pdo->prepare('UPDATE customers SET lastactivity="'.date("Y-m-d H:i:s").'",lastip="'.$_SERVER["REMOTE_ADDR"].'" WHERE login="'.$_SESSION['reguser'].'"');
+                                $ins->execute();
                                 unset($_SESSION['reguser']);
                                 unset($_SESSION['role']);
                                 echo '<script>
@@ -88,15 +90,15 @@ foreach ($_COOKIE as $key => $value) {
                     <span class="glyphicon glyphicon-shopping-cart"></span> <a href="index.php?page=3">Корзина <span>(<?php echo count($array); ?>)</span></a><br><br>
 
                     <form action="index.php?page=5" method="get">
-                    <div class="input-group">
-                        
-                        <input type="text" name="search" class="form-control search" placeholder="Поиск товаров" style="width: 70%">
-                        <span class="input-group-btn">
-                        
-                            <button class="btn btn-default" type="submit">Поиск</button>
-                        
-                        </span>
-                    </div>
+                        <div class="input-group">
+
+                            <input type="text" name="search" class="form-control search" placeholder="Поиск товаров" style="width: 70%">
+                            <span class="input-group-btn">
+
+                                <button class="btn btn-default" type="submit">Поиск</button>
+
+                            </span>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -128,9 +130,9 @@ foreach ($_COOKIE as $key => $value) {
                 if ($page == 6) include_once("pages/iteminfo.php");
                 if ($page == 'userinfo') include_once("pages/userinfo.php");
             }
-                if (isset($_GET['search'])) {
-                    include_once("pages/search.php");
-                }
+            if (isset($_GET['search'])) {
+                include_once("pages/search.php");
+            }
             ?>
 
         </div>

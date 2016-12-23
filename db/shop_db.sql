@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 23 2016 г., 14:25
+-- Время создания: Дек 23 2016 г., 23:05
 -- Версия сервера: 5.5.50
 -- Версия PHP: 5.3.29
 
@@ -88,25 +88,24 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `email` varchar(64) NOT NULL,
   `surname` varchar(32) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `parentname` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
-  `birthday` datetime NOT NULL,
+  `birthday` text NOT NULL,
   `adress` varchar(512) NOT NULL,
-  `phone` int(15) NOT NULL,
+  `phone` varchar(15) NOT NULL,
   `roleid` int(11) DEFAULT NULL,
   `discount` int(11) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
   `imagepath` varchar(255) DEFAULT NULL,
-  `reg-date` datetime NOT NULL,
-  `last-activity` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  `regdate` datetime NOT NULL,
+  `lastactivity` datetime NOT NULL,
+  `lastip` varchar(32) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `customers`
 --
 
-INSERT INTO `customers` (`id`, `login`, `pass`, `email`, `surname`, `name`, `parentname`, `birthday`, `adress`, `phone`, `roleid`, `discount`, `total`, `imagepath`, `reg-date`, `last-activity`) VALUES
-(4, 'admin', 'eb77f747c3c01a208d762a78714101ed', 'miusov86@gmail.com', 'Миусов', '', 'Святославович', '1986-02-21 00:00:00', 'г.Запорожье, Новая почта №9', 977919245, 1, 0, 11760, 'img/avatars/qwerty.jpg', '2016-12-01 00:00:00', '2016-12-20 00:00:00'),
-(5, 'miusov', 'e10adc3949ba59abbe56e057f20f883e', '', '', '', '', '0000-00-00 00:00:00', '', 0, 2, 0, 73650, 'img/avatars/07.gif', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `customers` (`id`, `login`, `pass`, `email`, `surname`, `name`, `birthday`, `adress`, `phone`, `roleid`, `discount`, `total`, `imagepath`, `regdate`, `lastactivity`, `lastip`) VALUES
+(4, 'admin', 'eb77f747c3c01a208d762a78714101ed', 'miusov86@gmail.com', 'admin', 'admin', '2001-01-01', 'Earth', '010101010101', 1, 0, 11760, 'img/avatars/qwerty.jpg', '2016-12-01 00:00:00', '2016-12-23 22:47:57', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -433,7 +432,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT для таблицы `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `images`
 --
