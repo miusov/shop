@@ -1,0 +1,23 @@
+<div class="pull-left">
+	<select name="catid" id="catid" onchange="GetSub2(this.value)">
+		<?php
+			$pdo=Tools::connect();
+			$ps=$pdo->prepare('SELECT * FROM categories');
+			$ps->execute();
+			echo '<option value="0">Выбирите категорию...</option>';
+			while ($row=$ps->fetch()) {
+				echo '<option value="'.$row['id'].'">'.$row['category'].'</option>';
+			}
+		 ?>
+	</select>
+
+		<select id="res1" onchange="GetItem(this.value)" name="subid" id="subid">
+			<option value="0">Выбирите подкатегорию...</option>
+		</select>
+
+		<select id="res2" name="itemid" id="itemid">
+			<option value="0">Выбирите товар...</option>
+		</select>
+
+</div>
+<br><br>
