@@ -29,10 +29,12 @@ class Customer
 	public $id;
 	public $login;
 	public $pass;
+	public $email;
 	public $roleid;
 	public $discount;
 	public $total;
 	public $imagepath;
+	public $regdate;
 
 	function __construct($login,$pass,$email,$imagepath,$id=0)
 	{
@@ -45,6 +47,7 @@ class Customer
 		$this->discount = 0;
 		$this->total = 0;
 		$this->imagepath = $imagepath;
+		$this->regdate = $regdate;
 		
 	}
 
@@ -53,7 +56,7 @@ class Customer
 		Tools::SetParam('localhost','root','123456','shop_db');
 		$pdo=Tools::connect();
 
-		$ps=$pdo->prepare('INSERT INTO customers (login,pass,email,roleid,discount, total,imagepath) VALUES (:login,md5(:pass),:email,:roleid,:discount,:total,:imagepath)');
+		$ps=$pdo->prepare('INSERT INTO customers (login,pass,email,roleid,discount, total,imagepath, regdate) VALUES (:login,md5(:pass),:email,:roleid,:discount,:total,:imagepath,:regdate)');
 
 		$data=array(
 			'login'=>$this->login,
@@ -62,7 +65,8 @@ class Customer
 			'roleid'=>$this->roleid,
 			'discount'=>$this->discount,
 			'total'=>$this->total,
-			'imagepath'=>$this->imagepath);
+			'imagepath'=>$this->imagepath,
+			'regdate'=>date("Y-m-d H:i:s"));
 
 		$ps->execute((array)$data);
 		echo '<h4 style="color: green" class="text-center">Пользователь добавлен!</h4>';

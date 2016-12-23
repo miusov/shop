@@ -51,7 +51,7 @@ foreach ($_COOKIE as $key => $value) {
                                 <?php
                                 if (isset($_SESSION['reguser'])){
                                    echo 'Добро пожаловать <b>'. $_SESSION['reguser']. 
-                                   '</b><a href="index.php?page=userinfo&user='.$_SESSION['reguser'].'"> [профиль]</a><input type="submit" value="Выход" id="exit" name="exit">';
+                                   ' </b><a href="index.php?page=userinfo&user='.$_SESSION['reguser'].'" target="_blanc">[профиль]</a><input type="submit" value="Выход" id="exit" name="exit">';
                                } 
                                else{
                                 echo '<a href="index.php?page=4">Вход/Регистрация</a>';
