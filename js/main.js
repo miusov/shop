@@ -25,6 +25,13 @@
             $('.layout-left').text(str[rand(0, str.length)]);
         }, 4000);
 
+        //CALLBACK
+
+            $('.back-call').click(function() {
+                $('#callBackBlock').slideToggle(800);
+            })
+        
+
         //SEARCH WIDTH
         
         $('.search').focus(function () {
@@ -119,16 +126,16 @@ $('.comment').click(function() {
 
 $(function() {
     $( "#slider-range" ).slider({
-          step: 50,
-          range: true,
-          min: 50,
-          max: 50000,
-          values: [ 1000, 10000 ],
-          slide: function( event, ui ) {
-            $( "#amount" ).val( ui.values[ 0 ] );
-            $( "#amount_1" ).val( ui.values[ 1 ] );
-        }
-    });
+      step: 50,
+      range: true,
+      min: 50,
+      max: 50000,
+      values: [ 1000, 10000 ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( ui.values[ 0 ] );
+        $( "#amount_1" ).val( ui.values[ 1 ] );
+    }
+});
     $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) );
     $( "#amount_1" ).val( $( "#slider-range" ).slider( "values", 1 ) );
 

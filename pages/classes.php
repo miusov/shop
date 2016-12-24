@@ -162,7 +162,7 @@ class Item
 	function Draw()
 	{
 		echo '<div class="col-sm-6 col-md-3 col-xs-12 product">';
-		echo '<div class="text-center"><a href="index.php?page=6&item='.$this->id.'" target="_blanc""><img src="'.$this->imagepath.'" alt="" class="product-img"></a></div>';
+		echo '<a href="index.php?page=6&item='.$this->id.'" target="_blanc""><div class="product-img" style="background-image: url('.$this->imagepath.'); background-position: center; background-size: contain; background-repeat: no-repeat"></div></a>';
 		echo '<div class="text-left stars"><img src="img/5.png" alt="pic"></div>';
 		echo '<div class="text-right review"><a href="index.php?page=6&item='.$this->id.'" target="_blanc">Подробнее</a></div>';
 		echo '<p class="name text-center" title="'.$this->itemname.'">'.$this->itemname.'</p>';

@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 $user = trim($_GET['user']);
 
 Tools::SetParam('localhost','root','123456','shop_db');
@@ -46,43 +46,24 @@ if ($row['name']=='') {
 else{
 	?>
 	<div class="col-md-10 col-md-offset-1">
-		<div class="col-md-2">
-			<a href="" style="font-size: 12px">[изменить]</a>
+		<div class="col-md-2 text-center">
 			<img src="<?php echo $row['imagepath']?>" alt="" width="127" height="127">
 			<p style="text-align: center; font-weight: bold"><?php echo $row['login']?></p>
 		</div>
-		<div class="col-md-5 text-right">
-			<p>ФИО:</p>
-			<p>День рождения:</p>
-			<p>Телефон:</p>
-			<p>Почта</p>
-			<p>Дата регистрации:</p>
-			<p>В прошлый раз были:</p>
-			<p>В прошлый раз заходили с ip:</p>
+		<div class="col-md-10 text-center">
+			<p><span style="font-weight: bold">Фамилия, Имя:</span> &nbsp&nbsp&nbsp<?php echo $row['surname']?> <?php echo $row['name']?> <?php echo $row['parentname']?></p>
+			<p><span style="font-weight: bold">День рождения:</span> &nbsp&nbsp&nbsp<?php echo $row['birthday']?></p>
+			<p><span style="font-weight: bold">Телефон:</span> &nbsp&nbsp&nbsp<?php echo $row['phone']?></p>
+			<p><span style="font-weight: bold">Почта:</span> &nbsp&nbsp&nbsp<?php echo $row['email']?></p>
+			<p><span style="font-weight: bold">Дата регистрации:</span> &nbsp&nbsp&nbsp<?php echo $row['regdate']?></p>
+			<p><span style="font-weight: bold">В прошлый раз были:</span> &nbsp&nbsp&nbsp<?php echo $row['lastactivity']?></p>
+			<p><span style="font-weight: bold">В прошлый раз заходили с ip:</span> &nbsp&nbsp&nbsp<?php echo $row['lastip']?></p>
 			<br>
-			<p>Адресс:</p>
+			<p><span style="font-weight: bold">Адресс:</span> &nbsp&nbsp&nbsp<?php echo $row['adress']?></p>
 		</div>
-		<div class="col-md-5">
-			<p><?php echo $row['surname']?> <?php echo $row['name']?> <?php echo $row['parentname']?></p>
-			<p><?php echo $row['birthday']?></p>
-			<p><?php echo $row['phone']?></p>
-			<p><?php echo $row['email']?></p>
-			<p><?php echo $row['regdate']?></p>
-			<p><?php echo $row['lastactivity']?></p>
-			<p><?php echo $row['lastip']?></p>
-			<br>
-			<p><?php echo $row['adress']?></p>
-		</div>
-		<form action="<?php $_SERVER['PHP_SELF']?>" method="post">
+		<form action="index.php?page=delprofile" method="post">
 			<input type="submit" name="delprofile" value="Удалить профиль" id="delProfile">
 		</form>
-		<?php 
-			if (isset($_POST['delprofile'])){
-				$ins = $pdo->prepare('DELETE FROM customers WHERE login="'.$user.'"');
-				$ins->execute();
-				echo "<script>document.location='index.php?page=4'</script>";
-			}
-		 ?>
 	</div>
 
 	<?php	
@@ -95,18 +76,18 @@ else{
 		<input type="submit" value="Отправить" name="sendmail">
 	</form>
 	<?php if (isset($_POST['sendmail'])){
-			if ($_POST['textemail']!='') {
-				if (mail('miusov86@gmail.com', 'Сообщение с Интернет-магазина', $_POST['textemail'])) {
-					echo '<p style="color:green">Сообщение отправлено.</p>';
-				}
-				else{
-					echo '<p style="color:red">Ошибка при отправке!</p>';
-				}			
+		if ($_POST['textemail']!='') {
+			if (mail('miusov86@gmail.com', 'Сообщение с Интернет-магазина, от '.$row['email'], $_POST['textemail'])) {
+				echo '<p style="color:green">Сообщение отправлено.</p>';
 			}
 			else{
-				echo '<p style="color:red">Напишите сообщение!</p>';
-			}
-		} ?>
+				echo '<p style="color:red">Ошибка при отправке!</p>';
+			}			
+		}
+		else{
+			echo '<p style="color:red">Напишите сообщение!</p>';
+		}
+	} ?>
 	<?php 
 	if (isset($_POST['addinfo'])){
 		$surname = trim($_POST['surname']);

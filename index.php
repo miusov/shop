@@ -13,6 +13,14 @@ foreach ($_COOKIE as $key => $value) {
         $array[]=$key;
     }
 }
+
+if (isset($_POST['sendEmail'])) {
+    if ($_POST['mail'] != "") {
+        $ins = $pdo->prepare('INSERT INTO emails(emails) VALUES(:emails)');
+        $data = array('emails' => $_POST['mail']);
+        $ins->execute($data);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,22 +46,30 @@ foreach ($_COOKIE as $key => $value) {
     <![endif]-->
 </head>
 <body>
+    <div id="callBackBlock">
+        <form action="<?php $_SERVER['PHP_SELF']?>" method="post">
+            <input type="text" name="name" placeholder="ИМЯ"><br><br>
+            <input type="tel" name="tel" placeholder="ТЕЛЕФОН"><br><br>
+            <textarea name="message" placeholder="СООБЩЕНИЕ"></textarea><br><br>
+            <input type="submit" name="sendMessage" value="Отправить">
+        </form>
+    </div>
+
     <div class="wrapper">
         <!--  LOGO-->
         <div class="content">
             <div class="container-fluid">
                 <div class="row layout">
                     <div class="col-sm-12 col-md-10 col-md-offset-1">
-                        <div class="layout-left col-md-4 text-left hidden-sm hidden-xs"></div>
-                        <div class="layout-center col-md-4 text-center hidden-sm hidden-xs">Lorem ipsum dolor sit amet.</div>
+                        <div class="layout-left col-md-6 text-left hidden-sm hidden-xs"></div>
                         <form action="" method="post">
-                            <div class="layout-right col-md-4 col-xs-12 text-right">
+                            <div class="layout-right col-md-6 col-xs-12 text-right">
                                 <?php
                                 if (isset($_SESSION['reguser'])){
-                                 echo 'Добро пожаловать <b>'. $_SESSION['reguser']. 
-                                 ' </b><a href="index.php?page=userinfo&user='.$_SESSION['reguser'].'" target="_blanc">[профиль]</a><input type="submit" value="Выход" id="exit" name="exit">';
-                             } 
-                             else{
+                                   echo 'Добро пожаловать <b>'. $_SESSION['reguser']. 
+                                   ' </b><a href="index.php?page=userinfo&user='.$_SESSION['reguser'].'" target="_blanc">[профиль]</a><input type="submit" value="Выход" id="exit" name="exit">';
+                               } 
+                               else{
                                 echo '<a href="index.php?page=4">Вход/Регистрация</a>';
                             }
                             if (isset($_POST['exit'])) {
@@ -77,13 +93,21 @@ foreach ($_COOKIE as $key => $value) {
                     </div>
                 </form>
             </div>
-        </div>
+        </div>        
         <div class="row row-logo text-left">
             <div class="col-md-10 col-md-offset-1">
                 <div class="time-workig col-md-4 hidden-sm hidden-xs">
                     (099) 123 45 67 <br> (099) 123 45 67 <br>
                     <span>Ежедневно с 7:00 до 20:00</span> <br>
                     <button class="back-call">Обратный звонок</button>
+                    <?php 
+                    if (isset($_POST['sendMessage'])) {
+                        if ($_POST['name'] != "" || $_POST['tel'] != "" || $_POST['message'] != "") {
+                            mail('miusov86@gmail.com', 'Перезвоните мне '.$_POST['tel'], $_POST['message']);
+                            echo '<br><span style="color: green">Мы вам перезвоним.</span>';
+                        }
+                    }
+                    ?>
                 </div>
                 <div class="logo text-center col-md-4 col-sm-6 col-xs-6"><a href="index.php?page=1"><img src="img/logo2.jpg" alt=""></a></div>
                 <div class="cart-and-search text-right col-md-4 col-sm-6 col-xs-6">
@@ -129,6 +153,7 @@ foreach ($_COOKIE as $key => $value) {
                 if ($page == 5) include_once("pages/admin-panel.php");
                 if ($page == 6) include_once("pages/iteminfo.php");
                 if ($page == 'userinfo') include_once("pages/userinfo.php");
+                if ($page == 'delprofile') include_once("pages/delprofile.php");
             }
             if (isset($_GET['search'])) {
                 include_once("pages/search.php");
@@ -142,7 +167,10 @@ foreach ($_COOKIE as $key => $value) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 row-email">
-                Подпишитесь на рассылку новостей и узнавайте первыми о распродажах и новинках &nbsp;&nbsp; <input type="text" placeholder="Электронная почта"><button>Подписаться</button>
+                Подпишитесь на рассылку новостей и узнавайте первыми о распродажах и новинках &nbsp;&nbsp; 
+                <form action="<?php $_SERVER['PHP_SELF']?>" method="post">
+                    <input type="email" placeholder="Электронная почта" name="mail"><input type="submit" name="sendEmail" value="Подписаться"></input>
+                </form>
             </div>
         </div>
         <div class="row social text-center">

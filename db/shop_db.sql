@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 23 2016 г., 23:05
+-- Время создания: Дек 25 2016 г., 00:27
 -- Версия сервера: 5.5.50
--- Версия PHP: 5.3.29
+-- Версия PHP: 5.6.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `name` varchar(32) NOT NULL,
   `birthday` text NOT NULL,
   `adress` varchar(512) NOT NULL,
-  `phone` varchar(15) NOT NULL,
+  `phone` varchar(20) NOT NULL,
   `roleid` int(11) DEFAULT NULL,
   `discount` int(11) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `regdate` datetime NOT NULL,
   `lastactivity` datetime NOT NULL,
   `lastip` varchar(32) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `customers`
@@ -106,6 +106,25 @@ CREATE TABLE IF NOT EXISTS `customers` (
 
 INSERT INTO `customers` (`id`, `login`, `pass`, `email`, `surname`, `name`, `birthday`, `adress`, `phone`, `roleid`, `discount`, `total`, `imagepath`, `regdate`, `lastactivity`, `lastip`) VALUES
 (4, 'admin', 'eb77f747c3c01a208d762a78714101ed', 'miusov86@gmail.com', 'admin', 'admin', '2001-01-01', 'Earth', '010101010101', 1, 0, 11760, 'img/avatars/qwerty.jpg', '2016-12-01 00:00:00', '2016-12-23 22:47:57', '127.0.0.1');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `emails`
+--
+
+CREATE TABLE IF NOT EXISTS `emails` (
+  `id` int(11) NOT NULL,
+  `emails` varchar(256) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `emails`
+--
+
+INSERT INTO `emails` (`id`, `emails`) VALUES
+(1, 'test@yesy.ru'),
+(3, 'miusov@bigmir.net');
 
 -- --------------------------------------------------------
 
@@ -366,6 +385,12 @@ ALTER TABLE `customers`
   ADD KEY `roleid` (`roleid`);
 
 --
+-- Индексы таблицы `emails`
+--
+ALTER TABLE `emails`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `images`
 --
 ALTER TABLE `images`
@@ -432,7 +457,12 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT для таблицы `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT для таблицы `emails`
+--
+ALTER TABLE `emails`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `images`
 --
